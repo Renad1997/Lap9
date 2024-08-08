@@ -1,0 +1,71 @@
+create database library;
+
+create table students(
+  id int primary key ,
+  name varchar(20) not null unique,
+  email varchar(20) unique,
+  date_of_birth varchar(15),
+  gender varchar(10) check ( gender= 'male' or gender= 'female' ),
+  section varchar(10)
+);
+create table authors(
+ id int primary key,
+ name varchar(20) unique ,
+ nationality varchar(10),
+ email varchar(20) unique ,
+ age int ,
+ address varchar(30) not null
+);
+create table books(
+ id int primary key ,
+ book_name varchar(20) unique ,
+ pageCount int ,
+ author_id int ,
+ type varchar(15) check( type='Health'or type='Drama'or type='kids'or type='History'or type='Cook'),
+ foreign key (author_id) references authors(id)
+);
+create table borrows(
+  borrow_id int primary key ,
+  student_id int ,
+  book_id int ,
+ taken_date datetime default CURRENT_TIMESTAMP,
+  return_date datetime default CURRENT_TIMESTAMP,
+  foreign key (student_id) references students(id),
+ foreign key (book_id) references books(id)
+);
+
+insert into students values (1122,'renad','renad@gmail.com','23-07-1997','female','1c8');
+insert into students values (3344,'sara','sara@gmail.com','10-04-1995','female','2cz');
+insert into students values (5566,'khalid','khalid@gmail.com','12-02-2016','male','7cs');
+insert into students values (7788,'faisal','faisal@gmail.com','24-09-1991','male','4nb');
+insert into students values (9900,'ali','ali@gmail.com','6-05-2011','male','8wx');
+select * from students;
+update students set name='ahmad' where section='8wx';
+delete from students where section='4nb';
+
+insert into authors values (111,'mohammed','saudi','mohammed@gmail.com',25,'riyadh-rm987');
+insert into authors values (222,'amal','saudi','amal@gmail.com',33,'riyadh-rn432');
+insert into authors values (333,'sara','saudi','sara@gmail.com',29,'riyadh-rt371');
+insert into authors values (444,'anas','saudi','anas@gmail.com',40,'riyadh-rb590');
+insert into authors values (555,'sami','saudi','sami@gmail.com',50,'riyadh-rz214');
+select * from authors;
+update authors set address='dammam-tr331' where age=25;
+delete from authors where age=40;
+
+insert into books values (110,'short stories',250,111,'kids');
+insert into books values (220,'everyday health',500,222,'Health');
+insert into books values (320,'anne of green gables',840,333,'Drama');
+insert into books values (420,'science',1000,444,'History');
+insert into books values (520,'dehydrator cook',370,555,'Cook');
+select * from books;
+update books set pageCount=876 where book_name='short stories';
+delete from books where pageCount=500;
+
+insert into borrows values (1000,1122,110,NOW(),NOW());
+insert into borrows values (2000,3344,220,NOW(),NOW());
+insert into borrows values (3000,5566,320,NOW(),NOW());
+insert into borrows values (4000,7788,420,NOW(),NOW());
+insert into borrows values (5000,9900,520,NOW(),NOW());
+select * from borrows;
+update borrows set borrow_id=6000 where student_id=1122;
+delete from borrows where borrow_id=4000;
